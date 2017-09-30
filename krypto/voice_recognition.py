@@ -1,6 +1,7 @@
 import speech_recognition as sr
 import logging
 import subprocess
+from gtts import gTTS
 
 logger = logging.getLogger(__name__)
 
