@@ -1,5 +1,6 @@
 import speech_recognition as sr
 import logging
+import subprocess
 
 logger = logging.getLogger(__name__)
 
@@ -9,11 +10,16 @@ class voice_recognition:
 	def __init__(self):
 		self.KRYPTO_COGNATES = ["crypto", "hey crypto", "hello crypto"]
 
-		self.STOP_LISTENING_COGNATES = ["go away", "stop listening", "shut down", "bye", "good bye"]
+		self.STOP_LISTENING_COGNATES = ["bye crypto", "stop listening", "shut down", "bye", "good bye"]
 
 	# @classmethod
 	def is_actionable_command(self, command):
 		return any(cognate in command for cognate in self.KRYPTO_COGNATES)
+
+	def perform_query(self,command):
+		com, arg = command.split(" ")
+		if(arg == "downloads"):
+			subprocess.call(["nautilus","../Downloads"])
 
 	# @classmethod
 	def action(self, command):
@@ -25,10 +31,14 @@ class voice_recognition:
 
 		logger.warn("Received command: '%s'", command)
 			# Determine if this is an actionable command.
-		if not self.is_actionable_command(command):
-			logger.warn("Please go on")
-
 		if any(cognate in command for cognate in self.STOP_LISTENING_COGNATES):
-			logger.warn("Thank you, enjoy your day, sir.")
+			logger.warn("Goodbye, enjoy your day")
+			return False
+
+		elif not self.is_actionable_command(command):
+			self.perform_query(command)
+			return True
+		
 		else:
-			logger.warn("How can i assist you further")
+			logger.warn("How can i assist you ?")
+			return True
