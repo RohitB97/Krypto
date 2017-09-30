@@ -1,0 +1,6 @@
+SpeechRecognition (pip)
+pyaudio (pip)
+swig (apt-get)
+libpulse-dev (apt-get)
+pocketsphinx(pip)
+portaudio19-dev (apt-get)
